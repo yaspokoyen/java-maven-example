@@ -6,6 +6,9 @@
 	<artifactId>example.smallest</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<properties>
+		<java.version>19.0.1</java.version>
+	</properties>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -19,11 +22,16 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-<!-- 			<plugin>
+			<plugin>
         			<groupId>org.apache.maven.plugins</groupId>
         			<artifactId>maven-war-plugin</artifactId>
         			<version>3.3.2</version>
-            </plugin> -->
+            </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.10.1</version>
+			</plugin>
         </plugins>
 	</build>
 
