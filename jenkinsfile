@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    tools {
+        // Install the Maven version configured as "M3" and add it to the path.
+        maven "mvn-jnk"
+    }
+
+    stages {
+        stage('Build Maven') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'main', url: 'https://github.com/yaspokoyen/java-maven-example.git'
+                // Run Maven on a Unix agent.
+                sh 'mvn clean install'
+            }
+        }
+        stage('Build Docker') {
+            steps {
+                // Get some code from a GitHub repository
+                sh 'docker build . -t yaspokoyen/java-maven-example:v0.1'
+            }
+        }
+        stage ('Push to Dockerhub') {
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
+                sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+                sh 'docker push yaspokoyen/java-maven-example:v0.1'
+                }
+            }
+        }
+        stage ('Deploy to Minikube') {
+            steps {
+                withKubeConfig([credentialsId: 'minikube', serverUrl: 'http://192.168.82.6:6445']) {
+                    sh 'kubectl apply -f deployment.yml -n app'
+                    sh 'kubectl apply -f ingress.yml -n app'
+                } 
+            }
+        } 
+    }
+}
