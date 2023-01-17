@@ -18,16 +18,18 @@ spec:
       - name: java-app
         image: yaspokoyen/java-maven-example:latest
         livenessProbe:
-        httpGet:
-          path: /actuator/health/liveness
-          port: 8081
-          initialDelaySeconds: 3
-          periodSeconds: 3
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8081
+          initialDelaySeconds: 60
+          periodSeconds: 20
+          successThreshold: 1
+          timeoutSeconds: 10
         readinessProbe:
-        httpGet:
-          path: /actuator/health/readiness
-          port: 8081
-          initialDelaySeconds: 3
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8081
+          initialDelaySeconds: 60
           periodSeconds: 3
         resources:
           limits:
