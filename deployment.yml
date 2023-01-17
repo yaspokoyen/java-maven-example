@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: java-app
-        image: yaspokoyen/java-maven-example:v0.v1
+        image: yaspokoyen/java-maven-example:v0.1
         livenessProbe:
           httpGet:
             path: /actuator/health/liveness
